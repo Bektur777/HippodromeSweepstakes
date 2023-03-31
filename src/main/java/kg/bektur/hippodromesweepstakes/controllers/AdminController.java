@@ -104,4 +104,13 @@ public class AdminController {
         return "admin/create_race";
    }
 
+   @PostMapping("/races/create")
+   public String createRace(@ModelAttribute("race") @Valid RaceDto raceDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "admin/create_race";
+
+        raceService.save(raceDto);
+        return "redirect:/admin/races";
+   }
+
 }

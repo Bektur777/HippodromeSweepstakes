@@ -2,6 +2,7 @@ package kg.bektur.hippodromesweepstakes.services;
 
 import kg.bektur.hippodromesweepstakes.dto.RaceDto;
 import kg.bektur.hippodromesweepstakes.dto.RaceFullDto;
+import kg.bektur.hippodromesweepstakes.entities.Race;
 import kg.bektur.hippodromesweepstakes.repositories.RaceRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class RaceService {
 
     public RaceFullDto findRaceById(Long id) {
         return mapper.map(raceRepository.findById(id), RaceFullDto.class);
+    }
+
+    @Transactional
+    public void save(RaceDto raceDto) {
+        raceRepository.save(mapper.map(raceDto, Race.class));
     }
 
 }

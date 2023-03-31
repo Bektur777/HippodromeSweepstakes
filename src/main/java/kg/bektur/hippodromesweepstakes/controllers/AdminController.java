@@ -2,6 +2,7 @@ package kg.bektur.hippodromesweepstakes.controllers;
 
 import jakarta.validation.Valid;
 import kg.bektur.hippodromesweepstakes.dto.HorseDto;
+import kg.bektur.hippodromesweepstakes.dto.RaceDto;
 import kg.bektur.hippodromesweepstakes.dto.RaceFullDto;
 import kg.bektur.hippodromesweepstakes.services.AdminService;
 import kg.bektur.hippodromesweepstakes.services.HorseService;
@@ -92,9 +93,15 @@ public class AdminController {
    }
 
    @GetMapping("/races/{id}")
-    public String showRaceById(@PathVariable("id") Long id, Model model) {
+   public String showRaceById(@PathVariable("id") Long id, Model model) {
         model.addAttribute("race", raceService.findRaceById(id));
         return "admin/detail_race";
+   }
+
+   @GetMapping("/races/create")
+   public String showFromToCreateRace(@ModelAttribute("race") RaceDto raceDto, Model model) {
+        model.addAttribute("race", raceDto);
+        return "admin/create_race";
    }
 
 }

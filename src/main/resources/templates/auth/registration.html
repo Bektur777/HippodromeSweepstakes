@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+</head>
+<body>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+    <center>
+        <form th:method="POST" th:action="@{/auth/register}" th:object="${user}">
+            <input type="text" th:field="*{username}" placeholder="Enter your username ...">
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error">Errors</p>
+            <input type="text" th:field="*{password}" placeholder="Enter your password ...">
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Errors</p>
+            <input type="text" th:field="*{fullName}" placeholder="Enter your full name ...">
+            <p th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Errors</p>
+            <input type="number" th:field="*{age}" placeholder="Enter your age ...">
+            <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Errors</p>
+            <button type="submit">Submit</button>
+        </form>
+    </center>
+</body>
+</html>

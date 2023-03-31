@@ -34,6 +34,14 @@ public class RaceService {
                 .collect(Collectors.toList());
     }
 
+    // Список всех заполненных лошадьми скачки
+    public List<RaceFullDto> findAllReserveRaces() {
+        return raceRepository.findAll().stream()
+                .filter(race -> race.getHorses().size() == 7)
+                .map(race -> mapper.map(race, RaceFullDto.class))
+                .collect(Collectors.toList());
+    }
+
     public List<RaceDto> findAllRaces() {
         return raceRepository.findAll().stream()
                 .map(race -> mapper.map(race, RaceDto.class))

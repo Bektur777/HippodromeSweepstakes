@@ -1,11 +1,14 @@
 package kg.bektur.hippodromesweepstakes.controllers;
 
+import kg.bektur.hippodromesweepstakes.dto.BetDto;
 import kg.bektur.hippodromesweepstakes.services.AuthorizationService;
+import kg.bektur.hippodromesweepstakes.services.BetService;
+import kg.bektur.hippodromesweepstakes.services.HorseService;
+import kg.bektur.hippodromesweepstakes.services.RaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping
@@ -13,15 +16,45 @@ public class MainController {
 
     private final AuthorizationService authorizationService;
 
+    private final RaceService raceService;
+
+    private final HorseService horseService;
+
+    private final BetService betService;
+
     @Autowired
-    public MainController(AuthorizationService authorizationService) {
+    public MainController(AuthorizationService authorizationService, RaceService raceService, HorseService horseService, BetService betService) {
         this.authorizationService = authorizationService;
+        this.raceService = raceService;
+        this.horseService = horseService;
+        this.betService = betService;
     }
 
-    @GetMapping
-    public String showCurrentUser(Model model) {
-        model.addAttribute("user", authorizationService.getCurrentUser());
-        return "index";
+//    @GetMapping
+//    public String showCurrentUser(Model model) {
+//        model.addAttribute("user", authorizationService.getCurrentUser());
+//        return "index";
+//    }
+
+    @GetMapping("/")
+    public String showAllRaces(Model model) {
+        model.addAttribute("races", raceService.findAllReserveRaces());
+        return "user/races";
+    }
+
+    @GetMapping("/races/{id}")
+    public String showRaceById(@PathVariable("id") Long id, @ModelAttribute("bet") BetDto betDto, Model model) {
+        model
+                .addAttribute("user", authorizationService.getCurrentUser())
+                .addAttribute("race", raceService.findRaceById(id))
+                .addAttribute("bet", betDto);
+        return "admin/detail_race";
+    }
+
+    @PostMapping("/races")
+    public String saveBet(@ModelAttribute("bet") BetDto betDto) {
+        betService.save(betDto);
+        return "redirect:/";
     }
 
 }

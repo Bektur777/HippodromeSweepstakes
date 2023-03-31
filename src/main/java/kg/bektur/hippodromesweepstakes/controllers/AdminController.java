@@ -91,4 +91,10 @@ public class AdminController {
         return "admin/races";
    }
 
+   @GetMapping("/races/{id}")
+    public String showRaceById(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("race", raceService.findRaceById(id));
+        return "admin/detail_race";
+   }
+
 }

@@ -39,4 +39,8 @@ public class RaceService {
                 .collect(Collectors.toList());
     }
 
+    public RaceFullDto findRaceById(Long id) {
+        return mapper.map(raceRepository.findById(id), RaceFullDto.class);
+    }
+
 }

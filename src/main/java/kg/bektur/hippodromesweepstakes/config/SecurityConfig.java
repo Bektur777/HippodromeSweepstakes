@@ -26,21 +26,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("123")
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin);
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(matcher -> matcher
-                        .requestMatchers("/admin**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().hasAnyRole("USER", "ADMIN")
                 )

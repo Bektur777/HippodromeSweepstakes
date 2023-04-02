@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "Bet")
+@Where(clause = "deleted = false")
 public class Bet extends AbstractEntity {
 
     // Сумма ставки

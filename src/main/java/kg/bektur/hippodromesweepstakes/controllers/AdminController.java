@@ -39,7 +39,7 @@ public class AdminController {
     }
 
     @GetMapping("/horses/{id}")
-    public String showHorseById(@PathVariable("id") Long id, Model model) {
+    public String showHorseById(@PathVariable("id") Long id, @ModelAttribute("racePut") RaceDto raceDto, Model model) {
         model.addAttribute("horse", horseService.findHorseById(id));
 
         Optional<RaceFullDto> race = adminService.getHorsesRace(id);
@@ -54,7 +54,7 @@ public class AdminController {
     }
 
     @PutMapping("/horses/assign/{id}")
-    public String assignRaceToHorse(@PathVariable("id") Long id, @ModelAttribute("horse") RaceFullDto raceDto) {
+    public String assignRaceToHorse(@PathVariable("id") Long id, @ModelAttribute("race") RaceDto raceDto) {
         adminService.assign(id, raceDto);
         return "redirect:/admin/horses/" + id;
     }
@@ -86,32 +86,35 @@ public class AdminController {
         return "redirect:/admin/horses";
     }
 
-   @GetMapping("/races")
-   public String showAllRaces(Model model) {
+    @GetMapping("/races")
+    public String showAllRaces(Model model) {
         model.addAttribute("races", raceService.findAllRaces());
         return "admin/races";
-   }
+    }
 
-   @GetMapping("/races/{id}")
-   public String showRaceById(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/races/{id}")
+    public String showRaceById(@PathVariable("id") Long id, Model model) {
         model.addAttribute("race", raceService.findRaceById(id));
         return "admin/detail_race";
-   }
+    }
 
-   @GetMapping("/races/create")
-   public String showFromToCreateRace(@ModelAttribute("race") RaceDto raceDto, Model model) {
+    @DeleteMapping("/races/{id}")
+    public String deleteRaceById(@PathVariable("id") Long id) {
+        raceService.delete(id);
+        return "redirect:/admin/races";
+    }
+
+    @GetMapping("/races/create")
+    public String showFromToCreateRace(@ModelAttribute("race") RaceDto raceDto, Model model) {
         model.addAttribute("race", raceDto);
         return "admin/create_race";
-   }
+    }
 
-   @PostMapping("/races/create")
-   public String createRace(@ModelAttribute("race") @Valid RaceDto raceDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "admin/create_race";
-
+    @PostMapping("/races/create")
+    public String createRace(@ModelAttribute("race") @Valid RaceDto raceDto, BindingResult bindingResult) {
         raceService.save(raceDto);
         return "redirect:/admin/races";
-   }
+    }
 
 
 

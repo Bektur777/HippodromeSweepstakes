@@ -38,7 +38,8 @@ public class MainController {
 
     @GetMapping("/")
     public String showAllRaces(Model model) {
-        model.addAttribute("races", raceService.findAllReserveRaces());
+        model.addAttribute("races", raceService.findAllRaces())
+            .addAttribute("user", authorizationService.getCurrentUser());
         return "user/races";
     }
 
@@ -46,14 +47,19 @@ public class MainController {
     public String showRaceById(@PathVariable("id") Long id, @ModelAttribute("bet") BetDto betDto, Model model) {
         model
                 .addAttribute("user", authorizationService.getCurrentUser())
-                .addAttribute("race", raceService.findRaceById(id))
-                .addAttribute("bet", betDto);
-        return "admin/detail_race";
+                .addAttribute("race", raceService.findRaceById(id));
+        return "user/detail_race";
     }
 
-    @PostMapping("/races")
-    public String saveBet(@ModelAttribute("bet") BetDto betDto) {
-        betService.save(betDto);
+    @GetMapping("/bet/{horse_id}")
+    public String showFormToBetOnRace(@PathVariable("horse_id") Long horse_id, @ModelAttribute("bet") BetDto betDto, Model model) {
+        model.addAttribute("betHorse", horseService.findHorseById(horse_id));
+        return "user/bet";
+    }
+
+    @PostMapping("/bet/{horse_id}")
+    public String saveBet(@ModelAttribute("bet") BetDto betDto, @PathVariable("horse_id") Long horse_id) {
+        betService.save(horse_id, betDto);
         return "redirect:/";
     }
 

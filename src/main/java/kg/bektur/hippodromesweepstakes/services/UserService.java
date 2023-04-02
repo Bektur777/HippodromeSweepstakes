@@ -23,4 +23,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
+    public void updateBalance(double balance, Long id) {
+        userRepository.updateBalance(balance, id);
+    }
+
 }

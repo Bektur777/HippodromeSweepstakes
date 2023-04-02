@@ -25,9 +25,9 @@ public class HorseService {
         this.mapper = mapper;
     }
 
-    public List<HorseDto> findAllHorses() {
+    public List<HorseFullDto> findAllHorses() {
         return horseRepository.findAll().stream()
-                .map(horse -> mapper.map(horse, HorseDto.class))
+                .map(horse -> mapper.map(horse, HorseFullDto.class))
                 .collect(Collectors.toList()
         );
     }
@@ -43,7 +43,12 @@ public class HorseService {
 
     @Transactional
     public void delete(Long id) {
-        horseRepository.deleteHorseById(id);
+        horseRepository.softDelete(id);
+    }
+
+    @Transactional
+    public void withdrawFromRace(Long id) {
+        horseRepository.withdraw(id);
     }
 
 }

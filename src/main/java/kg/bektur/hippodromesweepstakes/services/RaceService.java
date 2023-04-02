@@ -29,7 +29,7 @@ public class RaceService {
     // Список всех не заполненных лошадьми скачки
     public List<RaceFullDto> findAllNotReserveRaces() {
         return raceRepository.findAll().stream()
-                .filter(race -> race.getHorses().size() <= 7)
+                .filter(race -> race.getHorses().size() < 7)
                 .map(race -> mapper.map(race, RaceFullDto.class))
                 .collect(Collectors.toList());
     }
@@ -50,6 +50,11 @@ public class RaceService {
 
     public RaceFullDto findRaceById(Long id) {
         return mapper.map(raceRepository.findById(id), RaceFullDto.class);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        raceRepository.softDelete(id);
     }
 
     @Transactional

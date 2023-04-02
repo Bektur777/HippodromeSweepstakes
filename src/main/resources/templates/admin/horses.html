@@ -2,9 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Horses</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-
+    <center>
+        <hr>
+        <br>
+        <a th:href="@{/admin/horses/create}">Create horse</a>
+        <br>
+        <br>
+        <hr>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Detail</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Participates</th>
+                </tr>
+            </thead>
+            <div th:each="horse : ${horses}">
+                <tbody>
+                    <tr>
+                        <th scope="row" th:text="${horse.getId()}">Id</th>
+                        <td th:text="${horse.getName()}"></td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{/admin/horses/{id}(id=${horse.getId()})}">
+                                Detail
+                            </a>
+                        </td>
+                        <td>
+                            <form th:method="DELETE" th:action="@{/admin/horses/{id}(id=${horse.getId()})}">
+                                <input type="submit" value="Delete" class="btn btn-danger">
+                            </form>
+                        </td>
+                        <div th:if="${horse.getRace() != null}">
+                            <td>
+                                Yes
+                            </td>
+                        </div>
+                        <div th:if="${horse.getRace() == null}">
+                            <td style="color: red">
+                                No
+                            </td>
+                        </div>
+                    </tr>
+                </tbody>
+            </div>
+        </table>
+    </center>
 </body>
 </html>

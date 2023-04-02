@@ -1,5 +1,6 @@
 package kg.bektur.hippodromesweepstakes.entities;
 
+import jakarta.annotation.PreDestroy;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

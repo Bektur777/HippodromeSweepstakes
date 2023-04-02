@@ -17,15 +17,8 @@
         <div th:if="${race.getHorses() != null}">
             <h2>List of participate in race</h2>
             <div th:each="horse : ${race.getHorses()}">
-                <a th:text="${horse.getName()}" th:href="@{/admin/horses/{id}(id=${horse.getId()})}">Horse</a>
+                <p>Make a bet on a horse: <a th:text="${horse.getName()}" th:href="@{/bet/{horse_id}(horse_id=${horse.getId()})}">Horse</a></p>
             </div>
-        </div>
-        <br>
-        <div th:if="${race.getHorses().size() == 7}">
-            <h2>There are no places</h2>
-        </div>
-        <div th:if="${race.getHorses().size() < 7}">
-            <a th:href="@{/admin/horses}">Add horse to race</a>
         </div>
     </center>
 </body>

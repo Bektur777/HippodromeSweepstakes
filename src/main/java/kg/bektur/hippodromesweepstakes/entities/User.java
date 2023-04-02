@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "Person")
+@Where(clause = "deleted = false")
 public class User extends AbstractEntity {
 
     @NotEmpty(message = "The username should not be empty")

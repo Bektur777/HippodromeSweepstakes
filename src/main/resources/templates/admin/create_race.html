@@ -2,9 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create race</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-
+<center>
+    <br>
+    <h1>Create race</h1>
+    <form th:method="POST" th:action="@{/admin/races/create}" th:object="${race}">
+        <div class="mb-3">
+            <label for="horse" class="form-label">Race time</label>
+            <input type="datetime-local" class="form-control" id="horse" th:field="*{raceTime}" style="width: 800px">
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</center>
 </body>
 </html>
